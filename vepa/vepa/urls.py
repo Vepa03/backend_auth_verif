@@ -15,12 +15,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from accounts.views import *
+from rest_framework import routers
+from category.views import CategoryView
+from book.views import BookView
+from django.conf.urls.static import static
+
+router = routers.DefaultRouter()
+
+router.register('category', CategoryView, basename='category')
+router.register('books', BookView, basename='books')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', RegisterAPI.as_view()),
     path('verify/', VerifyOTP.as_view()),
-    path('login/', Login.as_view())
-]
+    path('login/', Login.as_view()),
+    path('api/', include(router.urls))
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
