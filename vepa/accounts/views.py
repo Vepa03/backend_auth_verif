@@ -3,6 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializer import *
 from .emails import *
+from django.contrib.auth import authenticate
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth import get_user_model
 
 
 class RegisterAPI(APIView):
@@ -72,3 +76,23 @@ class VerifyOTP(APIView):
             })
         except Exception as e:
             print(e)
+
+
+User = get_user_model()
+
+class Login(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = User.objects.filter(email=email).first()
+        if user is None:
+            return Response({'status': 400, 'message': 'User not found'})
+
+        if not user.is_verified:
+            return Response({'status': 400, 'message': 'Account not verified'})
+
+        if not user.check_password(password):
+            return Response({'status': 400, 'message': 'Invalid password'})
+
+        return Response({'status': 200, 'message': 'Login successful'})
