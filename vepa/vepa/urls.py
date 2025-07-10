@@ -20,12 +20,14 @@ from accounts.views import *
 from rest_framework import routers
 from category.views import CategoryView
 from book.views import BookView
+from suggestions.views import SuggestionView
 from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 
 router.register('category', CategoryView, basename='category')
 router.register('books', BookView, basename='books')
+router.register('suggestions', SuggestionView, basename='suggestions' )
 
 
 urlpatterns = [

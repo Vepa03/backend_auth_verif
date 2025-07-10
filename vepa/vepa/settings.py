@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'book',
-    'category'
+    'category',
+    'suggestions'
 ]
 
 MIDDLEWARE = [
