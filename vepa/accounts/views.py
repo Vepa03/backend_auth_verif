@@ -61,7 +61,7 @@ class VerifyOTP(APIView):
                 user.save()
                 return Response({
                     'status' : 200,
-                    'message' : 'succesfully verified',
+                    'message' : 'OTP verified',
                     'data' : {},
                 })
             
